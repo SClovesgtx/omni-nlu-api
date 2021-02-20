@@ -1,0 +1,27 @@
+
+# For DB and NLP Processing
+elasticsearch==7.1.0
+
+# For API
+Flask==1.1.2
+
+# For mathematical computation
+numpy==1.19.5
+
+# to apply fuzzy match algorithm
+fuzzywuzzy==0.18.0
+
+# to save models files
+joblib==1.0.0
+pickleshare==0.7.5
+
+# for classic ML models
+scikit-learn==0.24.1
+
+# for deep learning
+tensorflow==2.4.1
+Keras==2.3.1
+keras-tuner==1.0.2
+
+# for nlp
+spacy==2.3.3

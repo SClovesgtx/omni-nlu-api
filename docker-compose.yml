@@ -1,0 +1,49 @@
+version: '3.3'
+services:
+  elasticsearch:
+    image: elasticsearch:7.10.1
+    container_name: omni_nlp_elasticsearch
+    restart: always
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - elasticsearch-data-volume:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  kibana:
+    container_name: omni_nlp_kibana
+    image: kibana:7.10.1
+    restart: always
+    environment:
+      - ELASTICSEARCH_HOSTS=http://omni_nlp_elasticsearch:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+
+
+  api:
+    container_name: omni_nlp_api
+    build: .
+    restart: always
+    environment:
+      - ELASTICSEARCH_HOST=omni_nlp_elasticsearch
+    ports:
+      - 5000:5000
+    depends_on:
+      - elasticsearch
+
+volumes:
+  elasticsearch-data-volume:
+    driver: local
