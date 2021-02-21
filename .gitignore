@@ -1,7 +1,6 @@
 .myenv/
 __pycache__/
 .ipynb_checkpoints/
-jupyter_notebooks/
 *.joblib
 *.h5
 imgs/
