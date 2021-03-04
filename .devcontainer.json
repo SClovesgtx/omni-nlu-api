@@ -1,0 +1,8 @@
+{
+    "name": "omni_nlp_api",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "api",
+    "workspaceFolder": "/usr/src/app"  ,
+    "extensions": ["ms-python.python"],
+    "shutdownAction": "stopCompose"
+}
