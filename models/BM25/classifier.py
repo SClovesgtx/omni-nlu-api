@@ -1,3 +1,16 @@
+import numpy as np
+
+def bm25_result_to_vector(result, intents_dictionary):
+    number_of_intents = max(map(lambda key: int(key), intents_dictionary.keys()))
+    intents_dictionary_for_bm25 = {intent:key for key, intent in 
+                                   zip(intents_dictionary.keys(), intents_dictionary.values())}
+    array_shape = (1, number_of_intents+1)
+    array_result_bm25 = np.zeros(array_shape)
+    for intent in result["intents"]:
+        array_index = int(intents_dictionary_for_bm25[intent["intent"]])
+        normalized_score = intent["confidence"]
+        array_result_bm25[0][array_index] = normalized_score
+    return array_result_bm25
 
 def find_intents_bm25(index, sentence, es):
     query = {

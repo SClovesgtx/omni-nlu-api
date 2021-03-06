@@ -19,13 +19,13 @@ from models.cnn.classifier import train_cnn_model
 from models.multinomialLogit.classifier import train_logit_model
 from models.polySVM.classifier import train_svm_model
 # from models.xgboost.classifier import train_xgboost_model
-from models.BM25.classifier import find_intents_bm25, bm25_accuracy
+from models.BM25.classifier import find_intents_bm25, bm25_accuracy, bm25_result_to_vector
 from models.models import load_models
 import time
 import os
 
 local_path = os.path.dirname(os.path.abspath(__file__))
-# ATUTENTICAÇÃO
+# AUTENTICAÇÃO
 # https://exploreflask.com/en/latest/views.html#authentication
 
 es = elastic_conection()
@@ -490,7 +490,11 @@ def nlp_model_classify():
     logit_result = logit.predict_proba(sentence_features) * accuracies["logit_accuracy"]
     svm_result = svm.predict_proba(sentence_features) * accuracies["svm_accuracy"]
     cnn_result = cnn.predict(sentence_features) * accuracies["cnn_accuracy"]
-    ensemble_result = logit_result + cnn_result + svm_result
+    bm25_result = find_intents_bm25(index, sentence, es)
+    array_result_bm25 = bm25_result_to_vector(result=bm25_result, 
+                                          intents_dictionary=intents_dictionary) * accuracies["bm25_accuracy"]
+    
+    ensemble_result = (logit_result + cnn_result + svm_result + array_result_bm25)/(accuracies["logit_accuracy"] + accuracies["svm_accuracy"] + accuracies["cnn_accuracy"] + accuracies["bm25_accuracy"])
     intents_index = np.argsort(ensemble_result) #np.argmax(ensemble_result)
     found_synonyms = synonym_matcher(entities, sentence, sentence_tokens, fuzzy_match_threshold)
     found_patterns = patterns_matcher(patterns, sentence)
