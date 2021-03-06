@@ -32,7 +32,7 @@ def find_intents_bm25(index, sentence, es):
         result["intents"].append(intent)
 
     if not result["intents"]:
-        result["intents"].append({"intent": "anything_else", "confidence": 0.1})
+        return False
 
     return result
 
