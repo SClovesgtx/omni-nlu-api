@@ -40,6 +40,6 @@ def bm25_accuracy(test_examples, index, es):
     right_answers = 0
     for test in test_examples:
         result = find_intents_bm25(index, test[0], es)
-        if result["intents"][0]["intent"] == test[1]:
+        if result != False and result["intents"][0]["intent"] == test[1]:
             right_answers += 1
     return right_answers/len(test_examples)
