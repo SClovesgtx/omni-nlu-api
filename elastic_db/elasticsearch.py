@@ -42,61 +42,14 @@ SETTINGS = {
                   }
             }
           }
- },
-"ann_feed_forward": {
-    "number_of_shards": 1,
-    "analysis": {
-        "filter": {
-          "pt_stop":{
-                 "type": "stop",
-                 "stopwords": "_portuguese_"
-              },
-          "pt_stemmer": {
-            "type": "stemmer",
-            "language": "portuguese_rslp"
-          }
-        },
-      "analyzer": {
-          "examples_intent_analyzer":{
-                 "type":"custom",
-                 "tokenizer":"standard",
-                 "char_filter":  [ "html_strip" ],
-                 "filter":[
-                    "lowercase",
-                    "asciifolding",
-                    "pt_stop",
-                    "pt_stemmer"
-                 ]
-              }
-        }
-      }
-}
+   }
 }
 
 MAPPINGS_PROPERTIES =  {
     "properties": {
       "customer_id": {"type": "keyword"},
       "language": {"type": "keyword"},
-      "recipe": {
-        "properties": {
-          "model_kind": {"type": "keyword"},
-          "ann_feed_forward": {
-            "properties": {
-              "intermediate_layers": {"type": "integer"},
-              "neurons_per_layer": {"type": "integer"},
-              "validation_split": {"type": "integer"},
-              "feature_encoding": {"type": "keyword"},
-              "dimension_reducer": {"type": "keyword"}
-            }
-          },
-          "BM25": {
-            "properties": {
-              "b": {"type": "float"},
-              "k1": {"type": "float"}
-            }
-          }
-        }
-      },
+      "recipe": {"type": "object"},
       "intent": {"type": "keyword"},
           "examples": {
             "properties": {"text": {"type": "text", "analyzer": "examples_intent_analyzer"}}
@@ -126,11 +79,43 @@ MAPPINGS_PROPERTIES =  {
 
 DEFAULT_RECIPE = {
     "language": "pt-br",
-    "model_kind": "BM25",
-    "BM25": {
-        "b": 0.75,
-        "k1": 1.2
-    }
+    "recipe": [
+      {
+        "model": "cnn",
+        "settings": {
+          "intermediate_layers": [
+                {"activation":"relu", "number_of_neurons": X_train.shape[1]}
+          ],
+          "loss": "categorical_crossentropy",
+          "epochs":100,
+          "batch_size":100,
+          "learning_rate":0.001
+        }
+      },
+      {
+        "model": "logit",
+        "settings": {
+          "C":5.0, 
+          "fit_intercept":False,
+          "random_state":1
+        }
+      },
+      {
+        "model": "svm",
+        "settings": { 
+            "degree":1, 
+            "coef0":0.0, 
+            "random_state":42
+        }
+      },
+      {
+        "model": "bm25",
+        "settings": { 
+            "b":1, 
+            "k1":0.0
+        }
+      }
+    ]
 }
 
 def get_nlp_model(es, workspace_id):
