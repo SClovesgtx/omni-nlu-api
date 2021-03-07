@@ -199,7 +199,7 @@ def index_exist(es, index_name):
 
 class NLPmodelIndex:
 
-    def __init__(self, es, workspace_id, customer_id, recipe=None):
+    def __init__(self, es, workspace_id, customer_id=None, recipe=None):
         now = datetime.now()
         dt_string = now.strftime("%d%m%Y%H%M%S")
         self.index_alias = "nlp_model-{workspace_id}".format(workspace_id=workspace_id)
@@ -208,9 +208,10 @@ class NLPmodelIndex:
                                                                             dt_string=dt_string)
             self.old_index_name = None
             self.workspace_id = workspace_id
-            self.customer_id = customer_id
+            if customer_id:
+              self.customer_id = customer_id
             if recipe == None:
-                recipe = DEFAULT_RECIPE
+              recipe = DEFAULT_RECIPE
             set_bm25_parameters(recipe)
             self.recipe = recipe
             self.mapping = {"settings": SETTINGS,
@@ -222,7 +223,7 @@ class NLPmodelIndex:
             self.workspace_id = res["_id"]
             self.customer_id = res["_source"]["customer_id"]
             self.recipe = res["_source"]["recipe"]
-            set_bm25_parameters(recipe)
+            set_bm25_parameters(self.recipe)
             self.mapping = {"settings": SETTINGS,
                             "mappings": MAPPINGS_PROPERTIES}
             self.synonyms_entities = get_entities(es, self.index_name, "synonyms")
