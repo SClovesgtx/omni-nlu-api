@@ -8,47 +8,44 @@ ELASTICSEARCH_HOST = os.environ['ELASTICSEARCH_HOST']
 
 # SETTING PARA BM25
 SETTINGS = {
-    "BM25": {
-        "number_of_shards": 1,
-        "index": {
-          "similarity": {
-            "default": {
-              "type": "BM25",
-              "b": 0.75,
-              "k1": 1.2
-            }
+    "number_of_shards": 1,
+    "index": {
+      "similarity": {
+        "default": {
+          "type": "BM25",
+          "b": 0.75,
+          "k1": 1.2
+        }
+      }
+    },
+    "analysis": {
+        "filter": {
+          "pt_stop":{
+                  "type": "stop",
+                  "stopwords": "_portuguese_"
+              },
+          "my_pt_stemmer": {
+            "type": "stemmer",
+            "language": "portuguese_rslp"
           }
         },
-        "analysis": {
-            "filter": {
-              "pt_stop":{
-                     "type": "stop",
-                     "stopwords": "_portuguese_"
-                  },
-              "my_pt_stemmer": {
-                "type": "stemmer",
-                "language": "portuguese_rslp"
+      "analyzer": {
+          "examples_intent_analyzer":{
+                  "type":"custom",
+                  "tokenizer":"standard",
+                  "char_filter":  [ "html_strip" ],
+                  "filter":[
+                    "lowercase",
+                    "asciifolding"
+                  ]
               }
-            },
-          "analyzer": {
-              "examples_intent_analyzer":{
-                     "type":"custom",
-                     "tokenizer":"standard",
-                     "char_filter":  [ "html_strip" ],
-                     "filter":[
-                        "lowercase",
-                        "asciifolding"
-                     ]
-                  }
-            }
-          }
-   }
+        }
+      }
 }
 
 MAPPINGS_PROPERTIES =  {
     "properties": {
       "customer_id": {"type": "keyword"},
-      "language": {"type": "keyword"},
       "recipe": {"type": "object"},
       "intent": {"type": "keyword"},
           "examples": {
@@ -77,14 +74,12 @@ MAPPINGS_PROPERTIES =  {
     }
 }
 
-DEFAULT_RECIPE = {
-    "language": "pt-br",
-    "recipe": [
+DEFAULT_RECIPE = [
       {
         "model": "cnn",
         "settings": {
           "intermediate_layers": [
-                {"activation":"relu", "number_of_neurons": X_train.shape[1]}
+                {"activation":"relu"}
           ],
           "loss": "categorical_crossentropy",
           "epochs":100,
@@ -111,12 +106,11 @@ DEFAULT_RECIPE = {
       {
         "model": "bm25",
         "settings": { 
-            "b":1, 
-            "k1":0.0
+            "b": 0.75,
+            "k1": 1.2
         }
       }
-    ]
-}
+]
 
 def get_nlp_model(es, workspace_id):
     index = NLPmodelIndex(es=es, workspace_id=workspace_id)
@@ -185,14 +179,11 @@ def entity_exist(es, index, entity):
         return 'Entity %s already exist!'%entity, 409
     return "Do not exist!", 200
 
-def settings_by_recipe(recipe):
-    if recipe["model_kind"]=="BM25":
-        settings = SETTINGS[recipe["model_kind"]]
-        settings["index"]["similarity"]["default"]["b"] = recipe["BM25"]["b"]
-        settings["index"]["similarity"]["default"]["k1"] = recipe["BM25"]["k1"]
-    else:
-        settings = SETTINGS[recipe["model_kind"]]
-    return settings
+def set_bm25_parameters(recipe):
+    for model in recipe:
+      if model["model"]=="bm25":
+        SETTINGS["index"]["similarity"]["default"]["b"] = model["settings"]["b"]
+        SETTINGS["index"]["similarity"]["default"]["k1"] = model["settings"]["k1"]
 
 
 def elastic_conection():
@@ -208,7 +199,7 @@ def index_exist(es, index_name):
 
 class NLPmodelIndex:
 
-    def __init__(self, es, workspace_id, customer_id=None, recipe=None):
+    def __init__(self, es, workspace_id, customer_id, recipe=None):
         now = datetime.now()
         dt_string = now.strftime("%d%m%Y%H%M%S")
         self.index_alias = "nlp_model-{workspace_id}".format(workspace_id=workspace_id)
@@ -217,13 +208,12 @@ class NLPmodelIndex:
                                                                             dt_string=dt_string)
             self.old_index_name = None
             self.workspace_id = workspace_id
-            if customer_id:
-                self.customer_id = customer_id
-            if not recipe:
+            self.customer_id = customer_id
+            if recipe == None:
                 recipe = DEFAULT_RECIPE
-            settings = settings_by_recipe(recipe)
+            set_bm25_parameters(recipe)
             self.recipe = recipe
-            self.mapping = {"settings": settings,
+            self.mapping = {"settings": SETTINGS,
                             "mappings": MAPPINGS_PROPERTIES}
 
         else:
@@ -232,8 +222,8 @@ class NLPmodelIndex:
             self.workspace_id = res["_id"]
             self.customer_id = res["_source"]["customer_id"]
             self.recipe = res["_source"]["recipe"]
-            settings = SETTINGS[self.recipe["model_kind"]]
-            self.mapping = {"settings": settings,
+            set_bm25_parameters(recipe)
+            self.mapping = {"settings": SETTINGS,
                             "mappings": MAPPINGS_PROPERTIES}
             self.synonyms_entities = get_entities(es, self.index_name, "synonyms")
             self.patterns_entities = get_entities(es, self.index_name, "patterns")

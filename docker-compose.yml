@@ -26,7 +26,7 @@ services:
     image: kibana:7.10.1
     restart: always
     environment:
-      - ELASTICSEARCH_HOSTS=http://omni_nlp_elasticsearch:9200
+      - ELASTICSEARCH_HOST=http://omni_nlp_elasticsearch:9200
     ports:
       - 5601:5601
     depends_on:
