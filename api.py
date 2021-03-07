@@ -52,10 +52,11 @@ def nlp_models_crud():
             if not nlp_model:
                 return Response("Expect to recive the nlp_model object!", status=400)
             recipe = nlp_model.get("recipe")
-            if recipe:
-                msg, status = check_recipe(recipe.get("model_kind"), recipe)
-                if status != 200:
-                    return Response(msg, status=status)
+            # Do tests after
+            # if recipe:
+            #     msg, status = check_recipe(recipe.get("model_kind"), recipe)
+            #     if status != 200:
+            #         return Response(msg, status=status)
             index = NLPmodelIndex(es=es,
                                  workspace_id=workspace_id,
                                  customer_id=nlp_model["customer_id"],
@@ -73,10 +74,10 @@ def nlp_models_crud():
             if not nlp_model:
                 return Response("Expect to recive the nlp_model object!", status=400)
             recipe = nlp_model.get("recipe")
-            if recipe:
-                msg, status = check_recipe(recipe.get("model_kind"), recipe)
-                if status != 200:
-                    return Response(msg, status=status)
+            # if recipe:
+            #     msg, status = check_recipe(recipe.get("model_kind"), recipe)
+            #     if status != 200:
+            #         return Response(msg, status=status)
             index, exist = get_nlp_model(es, workspace_id=workspace_id)
             if not exist:
                 return index
@@ -109,7 +110,7 @@ def nlp_models_crud():
 ################### INTENT #######################
 ##################################################
 
-@app.route("/nlp_model/intents/", methods=["GET", "POST", "PUT", "DELETE"])
+@app.route("/nlp_models/intents/", methods=["GET", "POST", "PUT", "DELETE"])
 def intent_crud():
     try:
         if request.method == "POST":
@@ -235,7 +236,7 @@ def intent_crud():
 ##################################################
 ################### ENTITY #######################
 ##################################################
-@app.route("/nlp_model/entities/", methods=["GET", "POST", "PUT", "DELETE"])
+@app.route("/nlp_models/entities/", methods=["GET", "POST", "PUT", "DELETE"])
 def entities_crud():
     try:
         if request.method == "POST":
@@ -423,7 +424,7 @@ def read_td_idf_train_test_data(workspace_id):
 
     return X_train, y_train, X_test, y_test
 
-@app.route("/nlp_model/resources/train", methods=["POST"])
+@app.route("/nlp_models/resources/train", methods=["POST"])
 def train_nlp_models():
     if request.method == "POST":
         workspace_id = request.args.get('workspace_id')
@@ -455,7 +456,7 @@ def train_nlp_models():
         # return {"teste": True}
 
 
-@app.route("/nlp_model/resources/classify/", methods=["POST"])
+@app.route("/nlp_models/resources/classify/", methods=["POST"])
 def nlp_model_classify():
     if request.method == "POST":
         sentence = request.args.get('sentence')
