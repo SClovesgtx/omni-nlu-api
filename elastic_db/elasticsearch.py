@@ -287,7 +287,7 @@ class NLPmodelIndex:
         self.index_name = "nlp_model-{workspace_id}-{dt_string}".format(workspace_id=self.workspace_id,
                                                                         dt_string=dt_string)
         self.recipe = res["_source"]["recipe"]
-        settings = settings = settings_by_recipe(self.recipe)
+        settings = settings_by_recipe(self.recipe)
         self.mapping = {"settings": settings,
                         "mappings": MAPPINGS_PROPERTIES}
         return self

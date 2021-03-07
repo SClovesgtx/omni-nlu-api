@@ -35,8 +35,8 @@ app = Flask(__name__)
 ################### NLP Model ####################
 ##################################################
 
-@app.route("/nlp_model/", methods=["GET", "POST", "PUT", "DELETE"])
-def nlp_model_crud():
+@app.route("/nlp_models/", methods=["GET", "POST", "PUT", "DELETE"])
+def nlp_models_crud():
     try:
         if request.method == "GET":
             workspace_id = request.args.get('workspace_id')
