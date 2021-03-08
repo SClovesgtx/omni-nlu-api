@@ -35,7 +35,7 @@ app = Flask(__name__)
 ################### NLP Model ####################
 ##################################################
 
-@app.route("/nlp_models/", methods=["GET", "POST", "PUT", "DELETE"])
+@app.route("/nlp_models", methods=["GET", "POST", "PUT", "DELETE"])
 def nlp_models_crud():
     try:
         if request.method == "GET":
@@ -110,7 +110,7 @@ def nlp_models_crud():
 ################### INTENT #######################
 ##################################################
 
-@app.route("/nlp_models/intents/", methods=["GET", "POST", "PUT", "DELETE"])
+@app.route("/nlp_models/intents", methods=["GET", "POST", "PUT", "DELETE"])
 def intent_crud():
     try:
         if request.method == "POST":
@@ -236,7 +236,7 @@ def intent_crud():
 ##################################################
 ################### ENTITY #######################
 ##################################################
-@app.route("/nlp_models/entities/", methods=["GET", "POST", "PUT", "DELETE"])
+@app.route("/nlp_models/entities", methods=["GET", "POST", "PUT", "DELETE"])
 def entities_crud():
     try:
         if request.method == "POST":
@@ -424,6 +424,19 @@ def read_td_idf_train_test_data(workspace_id):
 
     return X_train, y_train, X_test, y_test
 
+def read_recipe(index):
+    cnn_settings = dict() 
+    logit_settings = dict() 
+    svm_settings = dict()
+    for setting in index.recipe:
+        if setting["model"] == "cnn":
+            cnn_settings = setting["settings"]
+        elif setting["model"] == "logit":
+            logit_settings = setting["settings"]
+        elif setting["model"] == "svm":
+            svm_settings = setting["settings"]
+    return cnn_settings, logit_settings, svm_settings
+
 @app.route("/nlp_models/resources/train", methods=["POST"])
 def train_nlp_models():
     if request.method == "POST":
@@ -437,14 +450,22 @@ def train_nlp_models():
         train_test_split(index, es)
         time.sleep(30)
         train_examples, test_examples = get_train_test(index, es)
-        print(train_examples)
-        print(test_examples)
         apply_pipe_tfidf_feature_encoding(train_examples, test_examples, index, es)
         X_train, y_train, X_test, y_test = read_td_idf_train_test_data(index.workspace_id)
         bm25_acc = bm25_accuracy(test_examples, index, es)
-        cnn_accuracy = train_cnn_model(X_train, y_train, X_test, y_test, index.workspace_id)
-        logit_accuracy = train_logit_model(X_train, y_train, X_test, y_test, index.workspace_id)
-        svm_accuracy = train_svm_model(X_train, y_train, X_test, y_test, index.workspace_id)
+        cnn_settings, logit_settings, svm_settings = read_recipe(index)
+        cnn_accuracy = train_cnn_model(X_train=X_train, y_train=y_train, 
+                                       X_test=X_test, y_test=y_test, 
+                                       workspace_id=index.workspace_id, 
+                                       settings=cnn_settings)
+        logit_accuracy = train_logit_model(X_train=X_train, y_train=y_train, 
+                                           X_test=X_test, y_test=y_test, 
+                                           workspace_id=index.workspace_id, 
+                                           settings=logit_settings)
+        svm_accuracy = train_svm_model(X_train=X_train, y_train=y_train, 
+                                       X_test=X_test, y_test=y_test, 
+                                       workspace_id=index.workspace_id, 
+                                       settings=svm_settings)
         # xgb_accuracy = train_xgboost_model(X_train, y_train, X_test, y_test, index.workspace_id)
         acc = {"bm25_accuracy": bm25_acc,
                 "cnn_accuracy": cnn_accuracy,
@@ -453,10 +474,9 @@ def train_nlp_models():
                 "svm_accuracy": svm_accuracy}
         es.update(index=index.index_name, id=index.workspace_id, body={"doc": {"accuracies": acc}})
         return acc
-        # return {"teste": True}
 
 
-@app.route("/nlp_models/resources/classify/", methods=["POST"])
+@app.route("/nlp_models/resources/classify", methods=["POST"])
 def nlp_model_classify():
     if request.method == "POST":
         sentence = request.args.get('sentence')
