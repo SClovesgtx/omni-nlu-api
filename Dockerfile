@@ -5,6 +5,7 @@ WORKDIR /usr/src/app
 COPY ./ ./
 RUN pip install -r requirements.txt
 RUN python -m spacy download pt_core_news_lg
+RUN pip install jupyterlab
 
 COPY . .
 

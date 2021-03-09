@@ -32,10 +32,10 @@ services:
     depends_on:
       - elasticsearch
 
-
   api:
     container_name: omni_nlp_api
     build: .
+    image: base_image
     restart: always
     environment:
       - ELASTICSEARCH_HOST=omni_nlp_elasticsearch
@@ -43,6 +43,24 @@ services:
       - 5000:5000
     depends_on:
       - elasticsearch
+
+  bash:
+    image: base_image
+    user: root
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    entrypoint: /bin/sh
+
+  jupyter:
+      image: base_image
+      user: root
+      volumes:
+        - ./jupyter_notebooks:/usr/src/app/jupyter_notebooks
+      working_dir: /usr/src/app
+      command: "jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root --no-browser"
+      ports:
+        - 8888:8888
 
 volumes:
   elasticsearch-data-volume:
