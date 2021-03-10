@@ -52,6 +52,14 @@ services:
     working_dir: /usr/src/app
     entrypoint: /bin/sh
 
+  python3:
+    image: base_image
+    user: root
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    command: "python3"
+
   jupyter:
       image: base_image
       user: root
