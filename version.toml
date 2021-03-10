@@ -1,0 +1,6 @@
+[package]
+name = "omni-nlu-api"
+version = "0.0.1"
+authors = ["Cloves Paiva <cloves.paiva@extremedigital.com.br>"]
+description = "A Python containerized API to provide NLU resources for Omni Chatbuilder."
+repository = "https://github.com/SClovesgtx/omni_nlp_api-v1"
