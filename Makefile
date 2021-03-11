@@ -51,6 +51,13 @@ help:
 # User Commands #
 #################
 
+install-requirements:
+	# https://pre-commit.com/
+	# https://github.com/pre-commit/pre-commit-hooks
+	pip3 install pre-commit
+	pre-commit install
+	pre-commit migrate-config
+	pre-commit autoupdate
 build:
 	$(BUILD)
 build-no-cache:
