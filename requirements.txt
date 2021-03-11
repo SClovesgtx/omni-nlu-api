@@ -8,23 +8,23 @@ Flask==1.1.2
 # For mathematical computation
 numpy==1.19.5
 
-# to apply fuzzy match algorithm
+# To apply fuzzy match algorithm
 fuzzywuzzy==0.18.0
 
-# to save models files
+# To save models files
 joblib==1.0.0
 pickleshare==0.7.5
 
-# for classic ML models
+# For classic ML models
 scikit-learn==0.24.1
 
-# for deep learning
+# For deep learning
 tensorflow==2.4.1
 Keras==2.3.1
 keras-tuner==1.0.2
 
-# for nlp
+# For nlp
 spacy==2.3.3
 
-# for tests
+# For tests
 pytest==6.2.2
