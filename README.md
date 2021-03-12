@@ -3,7 +3,7 @@
 
 The purpose of this project is to provide NLU resources for Omni Chatbuilder.
 
-This project use the [Py-GreenHouse](https://github.com/felipepenha/py-greenhouse) as a MLOps template.
+This project was adapted from the [py-greenhouse](https://github.com/felipepenha/py-greenhouse) for  MLOps porpuse.
 
 # 2 - Local OS Requirements
 
