@@ -2,8 +2,9 @@ from numpy import asarray
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+
 def intent_to_onehot(intents_names):
-    data = asarray([ [intent_name]  for intent_name in intents_names])
+    data = asarray([[intent_name] for intent_name in intents_names])
     # define one hot encoding
     encoder = OneHotEncoder(sparse=False)
     # transform data
@@ -17,6 +18,8 @@ def encode_tfidf(all_examples):
     # tokenize and build vocab
     vectorizer.fit(all_examples)
     return vectorizer
+
+
 #     # summarize
 #     print(vectorizer.vocabulary_)
 #     print(vectorizer.idf_)

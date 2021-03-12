@@ -1,5 +1,3 @@
-
-
 def bm25_check(recipe):
     bm25 = recipe.get("BM25")
     if not bm25:
@@ -21,16 +19,16 @@ def bm25_check(recipe):
         return 'The "k1" value must be greater than zero!', 400
     return "ok", 200
 
+
 def ann_feed_forward_check(recipe):
     pass
 
-MODELS_CHECKS = {
- "ann_feed_forward": ann_feed_forward_check,
- "BM25": bm25_check
-}
+
+MODELS_CHECKS = {"ann_feed_forward": ann_feed_forward_check, "BM25": bm25_check}
+
 
 def check_recipe(model_kind, recipe):
     check_function = MODELS_CHECKS.get(model_kind, None)
     if not check_function:
-        return "There is no model %s"%model_kind, 404
+        return "There is no model %s" % model_kind, 404
     return check_function(recipe)
