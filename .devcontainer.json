@@ -1,8 +1,11 @@
 {
     "name": "omni_nlp_api",
+    "image": "base_image",
+    "forwardPorts": [3000],
     "dockerComposeFile": "docker-compose.yml",
     "service": "bash",
     "workspaceFolder": "/usr/src/app"  ,
-    "extensions": ["ms-python.python"],
+    "extensions": ["ms-python.python", "shd101wyy.markdown-preview-enhanced", 
+                   "ms-toolsai.jupyter", "vscode-icons-team.vscode-icons"],
     "shutdownAction": "stopCompose"
 }

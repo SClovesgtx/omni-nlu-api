@@ -37,6 +37,10 @@ services:
     build: .
     image: base_image
     restart: always
+    user: root
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
     environment:
       - ELASTICSEARCH_HOST=omni_nlp_elasticsearch
     ports:

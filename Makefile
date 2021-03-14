@@ -26,6 +26,7 @@
 
 BUILD = docker-compose build
 RUN = docker-compose run
+UP = docker-compose up
 VERSION = $(shell awk -F ' = ' '$$1 ~ /version/ { gsub(/[\"]/, "", $$2); printf("%s",$$2) }' version.toml)
 
 help:
@@ -62,6 +63,10 @@ build:
 	$(BUILD)
 build-no-cache:
 	$(BUILD) --no-cache
+up:
+	$(UP)
+build-up:
+	$(UP) --build
 bash:
 	$(RUN) bash
 python3:
