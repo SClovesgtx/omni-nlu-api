@@ -27,6 +27,7 @@
 BUILD = docker-compose build
 RUN = docker-compose run
 UP = docker-compose up
+DOWN = docker-compose down
 VERSION = $(shell awk -F ' = ' '$$1 ~ /version/ { gsub(/[\"]/, "", $$2); printf("%s",$$2) }' version.toml)
 
 help:
@@ -42,10 +43,14 @@ help:
 	@echo
 	@echo "    build           build image using cache"
 	@echo "    build-no-cache  build image from scratch, and not from cache"
+	@echo "    up              run the images"
+	@echo "    build-up        build images services from scratch and after run them up"
+	@echo "    down            stop the services"
 	@echo "    version         show the corrent version"
 	@echo "    bash            bash REPL (Read-Eval-Print loop), suitable for debugging"
 	@echo "    python          access Python through the REPL (Read-Eval-Print loop)"
 	@echo "    jupyter         access Python through the Jupyter Notebook"
+	@echo "    test            run all tests using pytest"
 	@echo "    release         Release on the dev branch"
 
 #################
@@ -67,6 +72,8 @@ up:
 	$(UP)
 build-up:
 	$(UP) --build
+down:
+	$(DOWN)
 bash:
 	$(RUN) bash
 python3:
@@ -75,6 +82,8 @@ jupyter:
 	$(RUN) jupyter
 version:
 	echo $(VERSION)
+test:
+	$(RUN) -e ELASTICSEARCH_HOST="testing" test
 release:
 	git tag -a $(VERSION) -m "VERSION=$(VERSION) read from `version.toml`"
 	git push origin HEAD:dev tag $(VERSION)

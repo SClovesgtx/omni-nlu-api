@@ -74,6 +74,18 @@ services:
       ports:
         - 8888:8888
 
+  test:
+    image: base_image
+    user: root
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - ELASTICSEARCH_HOST=omni_nlp_elasticsearch
+    depends_on:
+      - elasticsearch
+    working_dir: /usr/src/app
+    command: "pytest --verbose"
+
 volumes:
   elasticsearch-data-volume:
     driver: local

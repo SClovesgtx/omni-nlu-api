@@ -33,15 +33,18 @@ from models.BM25.classifier import (
     bm25_result_to_vector,
 )
 from models.models import load_models
+from typing import Tuple, List, Dict
 import time
 import os
 
 local_path = os.path.dirname(os.path.abspath(__file__))
-# AUTENTICAÇÃO
-# https://exploreflask.com/en/latest/views.html#authentication
 
 es = elastic_conection()
 app = Flask(__name__)
+
+# TYPING HINTS
+PATTERNS = List[Tuple[str, List[str]]]
+FOUND_ENTITIES = List[Dict[str, List[str]]]
 
 ##################################################
 ################### NLP Model ####################
@@ -428,7 +431,8 @@ def synonym_matcher(entities, sentence, sentence_tokens, fuzzy_match_threshold=9
     return found_entities
 
 
-def patterns_matcher(patterns, sentence):
+# The first function of this project using typing hint, 2021-03-20
+def patterns_matcher(patterns: PATTERNS, sentence: str) -> FOUND_ENTITIES:
     found_entities = []
     for entity, values in patterns:
         for value in values:
@@ -576,8 +580,18 @@ def nlp_model_classify():
                 )
         else:
             fuzzy_match_threshold = 90
-        entities = zip(index.synonyms_entities.keys(), index.synonyms_entities.values())
-        patterns = zip(index.patterns_entities.keys(), index.patterns_entities.values())
+        entities = [
+            (k, v)
+            for k, v in zip(
+                index.synonyms_entities.keys(), index.synonyms_entities.values()
+            )
+        ]
+        patterns = [
+            (k, v)
+            for k, v in zip(
+                index.patterns_entities.keys(), index.patterns_entities.values()
+            )
+        ]
         nlp_model_doc = es.get(index=index.index_alias, id=index.workspace_id)
         accuracies = nlp_model_doc["_source"]["accuracies"]
         sentence_tokens = get_tokens(sentence=sentence, index_name=index.index_name)
