@@ -1,9 +1,15 @@
-![](https://modeling-languages.com/wp-content/uploads/2019/03/blog-banner-ai-powered-chatbot-1.png)
-# 1 - Omni NLU API
+![](imgs/Logo_Omni_NLU.gif)
+# 1 - Introduction
 
-The purpose of this project is to provide NLU resources for Omni Chatbuilder.
+The purpose of this project is to provide NLU resources for Omni Plataform.
 
-This project was adapted from the [py-greenhouse](https://github.com/felipepenha/py-greenhouse) for  MLOps porpuse.
+It helps to train Machine Learning Models (MLM):
+
+![](imgs/api_for_train_ml_models.gif)
+
+And feed the Omni Plataform with these MLM resources:
+
+![](imgs/intro_nlu_api.png)
 
 # 2 - Local OS Requirements
 
