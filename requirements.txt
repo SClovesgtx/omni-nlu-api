@@ -28,3 +28,4 @@ spacy==2.3.3
 
 # For tests
 pytest==6.2.2
+mypy==0.812

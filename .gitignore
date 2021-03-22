@@ -1,7 +1,6 @@
 # model files
 *.joblib
 *.h5
-imgs/
 *.npy
 *.pickle
 *.json
