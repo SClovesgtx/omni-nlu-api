@@ -281,7 +281,7 @@ Something here soon...
 
 Tasks marked **+** are parcially done: 
 
-- [+] MLOps
+- [ ] MLOps
   - [x] Dockerfile to define container
   - [x] Docker-compose with services
   - [x] VS Code integration with Docker
@@ -289,7 +289,7 @@ Tasks marked **+** are parcially done:
   - [x] Git hooks
       - [x] [linting](https://medium.com/staqu-dev-logs/keeping-python-code-clean-with-pre-commit-hooks-black-flake8-and-isort-cac8b01e0ea1)
       - [x] testing (pytest)
-  - [+] Python Template for the Machine Learning Pipeline
+  - [ ] Python Template for the Machine Learning Pipeline
       - [X] Reading Data
       - [X] Data Cleansing
       - [X] Feature Engineering
@@ -298,7 +298,7 @@ Tasks marked **+** are parcially done:
       - [ ] Model Interpretation (SHAP)
   - [ ] Model Versioning, e.g. MLFlow, DVC, CML
   - [ ] CI/CD
-- [+] API
+- [ ] API
   - [X] CRUD Intents
   - [X] CRUD Enteties
   - [X] CRUD ML models settings
@@ -306,8 +306,8 @@ Tasks marked **+** are parcially done:
   - [ ] Refactor to be Restfull
   - [ ] Authentication
   - [ ] User Session
-- [+] Testing
-  - [+] Unitetest: tests on individual components that each have a single responsibility (ex. function that filters a list).
+- [ ] Testing
+  - [X] Unitetest: tests on individual components that each have a single responsibility (ex. function that filters a list).
   - [ ] Integration tests: tests on the combined functionality of individual components (ex. data processing).
   - [ ] System tests: tests on the design of a system for expected outputs given inputs (ex. training, inference, etc.).
   - [ ] Acceptance tests: tests to verify that requirements have been met, usually referred to as User Acceptance Testing (UAT).
