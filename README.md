@@ -279,7 +279,7 @@ Something here soon...
 
 # 8 - To Do
 
-Tasks marked with **X** are done and marked with **+** are parcially done: 
+Tasks marked **+** are parcially done: 
 
 - [+] MLOps
   - [x] Dockerfile to define container
