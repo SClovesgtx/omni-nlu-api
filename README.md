@@ -145,61 +145,23 @@ Something here soon...
 
 ### 1 - Index for NLU Model
 
-To create an index that will store all training information for machine learning models, simply inform workspace_id and customer_id
-
-| Field | Type | Description
-| ------ | ------ | ------ |
-| ```workspace_id``` | ```string``` | The id of the work space.
-| ```customer_id``` | ```string``` | The id of our customer. This id will be used to track customer spending.
+Something here soon...
 
 #### 1.1 -  Create
 
-```
-POST {url_api}/nlp_model/:workspace_id
-```
-Expected to receive the nlp_model object.
-
-![](./imgs/post_nlp_model.png)
-
-A conflict message will be displayed if a model already exists for workspace_id.
-
-![](./imgs/model_already_exit.png)
+Something here soon...
 
 #### 1.2 - Read
 
-```
-GET {url_api}/nlp_model/:workspace_id
-```
-
-An example:
-
-![](./imgs/read_model.png)
+Something here soon...
 
 #### 1.3 - Update
 
-It's not possible to update a specific field, it is necessary to pass the entire nlp_model object with the desired fields updated.
-
-```
-PUT {url_api}/nlp_model/:workspace_id
-```
-
-An example:
-
-![](./imgs/update_model.png)
+Something here soon...
 
 #### 1.4 - Delete
 
-To delete the entire index where the model associated with the workspace is:
-
-```
-DELETE {url_api}/nlp_model/:workspace_id
-```
-
-This will delete the entire elasticsearch index content. You will get back the elasticsearch delete response.
-
-An example:
-
-![](./imgs/delete_model.png)
+Something here soon...
 
 ### 2 - Intents
 
@@ -244,74 +206,21 @@ The following is an example of *intent* object:
 
 ### 2.1 Create
 
-To create and  a new intent:
+Something here soon...
 
-```
-POST {url_api}/nlp_model/intents/:workspace_id
-```
-
-An example:
-
-![](./imgs/create_intent.png)
 
 #### 2.2 - READ
 
-You can read by intent name:
-
-```
-GET {url_api}/nlp_model/intents/:workspace_id&:intent_name
-```
-An example:
-
-![](./imgs/read_intent_by_name.png)
-
-
-Or by intent id:
-
-```
-GET {url_api}/nlp_model/intents/:workspace_id&:intent_id
-```
-
-An example:
-
-![](./imgs/read_intent_by_id.png)
+Something here soon...
 
 #### 2.3 - Update
-You can only update the entire intent, so it is expected that the entire intent will be passed in a json format.
 
-To update intent by id:
- ```
- PUT {url_api}/nlp_model/intents/:workspace_id&:intent_id
- ```
-
-An example:
-
-![](./imgs/update_intent_by_id.png)
-
-To update intent by name:
-
- ```
-PUT {url_api}/nlp_model/intents/:workspace_id&:intent_name
-```
+Something here soon...
 
 
 #### 2.4 Delete
 
-To delete by intent name:
-
-```
- DELETE {url_api}/nlp_model/intents/:workspace_id&:intent_name
-```
-
-An example:
-
-![](./imgs/delete_intent_by_name.png)
-
-To delete by intent id:
-
-```
- DELETE {url_api}/nlp_model/intents/:workspace_id&:intent_id
-```
+Something here soon...
 
 
 ### 3 - Entities
@@ -346,27 +255,10 @@ Entities can be inserted in the examples of training intentions. For example:
 ```
 See that instead of writing, for example, *15* I wrote ```@sysNumbers```, instead of writing *11/12/2020* I wrote ```@sysDates``` and instead of writing *R$ 1000.00* I wrote ```@sysMonetary```. This way, the machine will know that when the customer intends to *Abono* he will use dates, numbers and monetary values.
 
-All entities that start with *sys* are default entities in the Omni NLP api. They are:
-
-* ```sysNumbers:number```
-* ```sysDates:date```
-* ```sysTime:time```
-* ```sysContact:email,phoneNumber```
-* ```sysMonetary:reais,dollar,euro```
 
 #### 3.1 - Create
 
-```
-POST {url_api}/nlp_model/{workspace_id}/recipe/entities/
-```
 
-Expected to receive the following parameters:
-
-| Field | Type | Description
-| ------ | ------ | ------ |
-| ```entity``` | ```string``` | The entity name.
-| ```values``` | ```array of objects``` | A list of objects ```{"type": "<'patterns' or 'synonyms'>", "value": "<value name>", "patterns": "<array of regex or synonyms>"}```.
-| ```fuzzy_match``` | ```boolean``` | This field could be ```true``` just for *synonyms* entity type.
 
 A example of entity of type pattern:
 
@@ -424,188 +316,25 @@ You will get back a entity id.
 
 #### 3.2 - READ
 
-To update whole entity:
-
-```
-GET {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}
-```
-
-To read just the entety name:
-
- ```
- GET {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}/entity
- ```
-
-To read values:
-
-```
- GET {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}/values
-```
-
-To read a specific value:
-
-```
- GET {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}/values/{index}
-```
+Something here soon...
 
 #### 3.3 - Update
 
-To update entire entity:
-```
-PUT {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}
-```
-
-To update just the entety name:
-
- ```
- PATCH {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}/entity
- ```
-
-To update values:
-
-```
- PATCH {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}/values
-```
-
-To update a specific value:
-
-```
- PATCH {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}/values/{index}
-```
+Something here soon...
 
 
 #### 3.4 Delete
 
-```
- DELETE {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}
-```
-To update just the entety name:
+Something here soon...
 
- ```
- PATCH {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}/entity
- ```
-
-To update values:
-
-```
- PATCH {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}/values
-```
-
-To update a specific value:
-
-```
- PATCH {url_api}/nlp_model/{workspace_id}/recipe/entities/{id}/values/{index}
-```
 # 4 - Resources
 
 Here you will find resources for intent classification and match entities in text.
 
 #### 4.1 - Train the Model
 
-After having all the recipe ready, you need to explicitly ask to train the model:
-
-```
-POST {url_api}/nlp_model/{workspace_id}/train
-```
+Something here soon...
 
 #### 4.2 - To Get Entities Values Inside Text
 
-After to train the model, we can classify sentences and obtain entities:
-
-```
-GET {url_api}/nlp_model/{workspace_id}/entities/find/
-```
-Expected to receive the following parameters:
-
-```json
-{
-	"sentence": "meu aniversário é dia 26 de dezembro de 1989, primeiro de abril é dia da mentira, me mudei para são paulo dia 28/06/2013",
-	"entity_name": "sysDates",
-	"entity_value": "date"
-}
-```
-
-You will get back the value entities found in the sentence:
-
-```json
-{
-    "matchs": [
-        "28/06/2013",
-        "26 de dezembro",
-        "primeiro de abril"
-    ]
-}
-```
-
-#### 4.3 - Classify Sentences
-
-The to classify sentences you can use the following endpoint:
-
-```sh
-GET {url_api}/nlp_model/resources/classify
-```
-
-Expected to receive the the user sentence and workspace_id as parameters:
-
-You will get back the intents and entities identified in the sentence as result:
-
-```json
-{
-    "entities": [
-        {
-            "EntedidadesGerais:Alteração da Data de Férias": "alteração"
-        },
-        {
-            "EntedidadesGerais:Alteração de Gestor": "Alteração de Gestor"
-        }
-    ],
-    "intents": [
-        {
-            "confidence": 7.6214814,
-            "intent": "Alteração_Gestor"
-        },
-        {
-            "confidence": 6.4091306,
-            "intent": "Alterar_Tipo_Registro_Ponto"
-        },
-        {
-            "confidence": 5.175696,
-            "intent": "Alterar_Cargo"
-        },
-        {
-            "confidence": 4.560931,
-            "intent": "Alteracao_CargoSalario"
-        },
-        {
-            "confidence": 4.268707,
-            "intent": "Repassar_Gestao_Colaborador"
-        },
-        {
-            "confidence": 3.9632719,
-            "intent": "Alterar_Centro_Custo"
-        },
-        {
-            "confidence": 3.9403086,
-            "intent": "Alterar_Vale_RefeicaoAlimentacao"
-        },
-        {
-            "confidence": 3.9037752,
-            "intent": "Concur_Cursos"
-        },
-        {
-            "confidence": 3.849194,
-            "intent": "Alterar_Aprovador"
-        },
-        {
-            "confidence": 3.7294798,
-            "intent": "IncluirRemover_Colaborador"
-        }
-    ]
-}
-```
-This way we can keep using sintax like ```intents[0].intent``` and ```intents[0].confidence```  in our dialog flows.
-
-An example:
-
-
-![](./imgs/classify_sentence2.png)
+Something here soon...
