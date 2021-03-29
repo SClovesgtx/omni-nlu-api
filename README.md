@@ -81,13 +81,108 @@ You can try the Omni NLU API using the following public collections in you desck
 
 Something here soon...
 
-# 4 - Index for NLU Model
+# 4 - The Recipe Object
 
-Something here soon...
+The recipe object contains the ingredients to build the models, the info about the client and the workspace id of the Chatbuilder.
+
+| Field | Type | Description
+| ------ | ------ | ------ |
+| ```customer_id``` | ```string``` | The cliente id, or the client name. Ex: ```yara```.
+| ```workspace_id``` | ```string``` | The workspace id of the Chatbuilder where the chatbot designer is working.
+| ```recipe``` | ```array of objects``` | A array of objects, each object contain hyperparameters settings of a especific model model of the ensemble.
+
+The Omni NLU API use the Problem Representation Desing Pattern nº 7 called Stacking Ensemble, described in the book [Machine Learning Design Patterns](https://www.oreilly.com/library/view/machine-learning-design/9781098115777/) in the pages 103-104 and 106. 
+
+![](imgs/ensemble.png)
+
+Currentily, the models of our ensemble are tree:
+
+* **Dense Neural Network**
+* **Suport Vector Machine (SVM)**: you are able to set any hyperparameters documented [here](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html).
+* **Logistic Regression**: you are able to set any hyperparameters documented [here](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html).
+
+ Here is the default recipe:
+
+ ```json
+  [
+   {
+      "model": "cnn",
+      "settings": {
+        "intermediate_layers": [
+              {"activation":"relu"}
+        ],
+        "loss": "categorical_crossentropy",
+        "epochs":100,
+        "batch_size":100,
+        "learning_rate":0.001
+    }
+   },
+   {
+      "model": "logit",
+      "settings": {
+        "C":5.0, 
+        "fit_intercept":false,
+        "random_state":1
+      }
+    },
+    {
+      "model": "svm",
+      "settings": { 
+          "degree":1, 
+          "coef0":0.0, 
+          "random_state":42
+      }
+    }
+]
+ ```
+
+ Following we have a exemple of a complete recipe object:
+
+```json
+{
+    "workspace_id": "dc1e7b3d-9137-4a20-a99c-d0d2029ef170",
+    "customer_id": "yara",
+    "recipe": [{
+        "model": "cnn",
+        "settings": {
+          "intermediate_layers": [
+                {"activation":"relu"}
+          ],
+          "loss": "categorical_crossentropy",
+          "epochs":100,
+          "batch_size":100,
+          "learning_rate":0.001
+        }
+      },
+      {
+        "model": "logit",
+        "settings": {
+          "C":5.0, 
+          "fit_intercept":false,
+          "random_state":1
+        }
+      },
+      {
+        "model": "svm",
+        "settings": { 
+            "degree":1, 
+            "coef0":0.0, 
+            "random_state":42
+        }
+      },
+      {
+        "model": "bm25",
+        "settings": { 
+            "b": 0.75,
+            "k1": 1.2
+        }
+      }]
+}
+```
 
 #### 4.1 -  Create
 
-Something here soon...
+
 
 #### 4.2 - Read
 
@@ -278,8 +373,6 @@ Something here soon...
 Something here soon...
 
 # 8 - To Do
-
-Tasks marked **+** are parcially done: 
 
 - [ ] MLOps
   - [x] Dockerfile to define container
