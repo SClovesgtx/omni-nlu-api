@@ -169,13 +169,6 @@ Currentily, the models of our ensemble are tree:
             "coef0":0.0, 
             "random_state":42
         }
-      },
-      {
-        "model": "bm25",
-        "settings": { 
-            "b": 0.75,
-            "k1": 1.2
-        }
       }]
 }
 ```
