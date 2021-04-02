@@ -1,5 +1,5 @@
-from elastic_db.elasticsearch import elastic_conection, NLPmodelIndex
-from elastic_db.elasticsearch import get_nlp_model, pipeline_to_update_index
+from elasticsearch_db.elasticsearch import elastic_conection, NLPmodelIndex
+from elasticsearch_db.elasticsearch import get_nlp_model, pipeline_to_update_index
 from elasticsearch.exceptions import NotFoundError
 from flask import Flask, request, Response, jsonify
 import numpy as np
