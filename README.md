@@ -67,6 +67,16 @@ To use bash inside container run:
 $ make bash
 ```
 
+# Conventions used in this project
+
+Before to make any contribution to Omni NLU API, make sure that you are familiar with the conventions of this project:
+
+* **git-flow as the branching model**: please read [Introducing GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html) and use [git-flow cheatsheet](http://danielkummer.github.io/git-flow-cheatsheet/).
+
+* **conventional commits**: write your commit messages following the standards defined [here](https://www.conventionalcommits.org/en/v1.0.0/).
+
+
+
 # Postman Colection
 
 You can try the Omni NLU API using the following public collections in you descktop Postman:
@@ -168,13 +178,6 @@ Currentily, the models of our ensemble are tree:
             "degree":1, 
             "coef0":0.0, 
             "random_state":42
-        }
-      },
-      {
-        "model": "bm25",
-        "settings": { 
-            "b": 0.75,
-            "k1": 1.2
         }
       }]
 }
