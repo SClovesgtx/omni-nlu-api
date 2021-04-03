@@ -4,7 +4,7 @@
     "forwardPorts": [3000],
     "dockerComposeFile": "docker-compose.yml",
     "service": "bash",
-    "workspaceFolder": "/usr/src/app"  ,
+    "workspaceFolder": "/usr/omni_nlu_api"  ,
     "extensions": ["ms-python.python", "shd101wyy.markdown-preview-enhanced", 
                    "ms-toolsai.jupyter", "vscode-icons-team.vscode-icons"],
     "shutdownAction": "stopCompose"

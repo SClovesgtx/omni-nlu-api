@@ -39,7 +39,7 @@ services:
     restart: always
     user: root
     volumes:
-      - .:/usr/omni_nlu_api
+      - ./src:/usr/omni_nlu_api/src
     working_dir: /usr/omni_nlu_api
     environment:
       - ELASTICSEARCH_HOST=elasticsearch
@@ -52,16 +52,20 @@ services:
     image: base_image
     user: root
     volumes:
-      - .:/usr/omni_nlu_api
-    working_dir: /usr/omni_nlu_api
+      - ./src:/usr/omni_nlu_api/src
+    working_dir: /usr/omni_nlu_api/src
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch
     entrypoint: /bin/sh
 
   python3:
     image: base_image
     user: root
     volumes:
-      - .:/usr/omni_nlu_api
-    working_dir: /usr/omni_nlu_api
+      - ./src:/usr/omni_nlu_api/src
+    working_dir: /usr/omni_nlu_api/src
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch
     command: "python3"
 
   jupyter:
@@ -69,7 +73,9 @@ services:
       user: root
       volumes:
         - ./jupyter_notebooks:/usr/omni_nlu_api/jupyter_notebooks
-      working_dir: /usr/omni_nlu_api/src
+      working_dir: /usr/omni_nlu_api
+      environment:
+      - ELASTICSEARCH_HOST=elasticsearch
       command: "jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root --no-browser"
       ports:
         - 8888:8888
