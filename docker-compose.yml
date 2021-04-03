@@ -2,7 +2,7 @@ version: '3.3'
 services:
   elasticsearch:
     image: elasticsearch:7.10.1
-    container_name: omni_nlp_elasticsearch
+    container_name: elasticsearch
     restart: always
     environment:
       - xpack.security.enabled=false
@@ -22,11 +22,11 @@ services:
       - 9200:9200
 
   kibana:
-    container_name: omni_nlp_kibana
+    container_name: kibana
     image: kibana:7.10.1
     restart: always
     environment:
-      - ELASTICSEARCH_HOST=http://omni_nlp_elasticsearch:9200
+      - ELASTICSEARCH_HOST=http://elasticsearch:9200
     ports:
       - 5601:5601
     depends_on:
@@ -39,10 +39,10 @@ services:
     restart: always
     user: root
     volumes:
-      - .:/usr/src/app
-    working_dir: /usr/src/app
+      - .:/usr/omni_nlu_api
+    working_dir: /usr/omni_nlu_api
     environment:
-      - ELASTICSEARCH_HOST=omni_nlp_elasticsearch
+      - ELASTICSEARCH_HOST=elasticsearch
     ports:
       - 5000:5000
     depends_on:
@@ -52,39 +52,39 @@ services:
     image: base_image
     user: root
     volumes:
-      - .:/usr/src/app
-    working_dir: /usr/src/app
+      - .:/usr/omni_nlu_api
+    working_dir: /usr/omni_nlu_api
     entrypoint: /bin/sh
 
   python3:
     image: base_image
     user: root
     volumes:
-      - .:/usr/src/app
-    working_dir: /usr/src/app
+      - .:/usr/omni_nlu_api
+    working_dir: /usr/omni_nlu_api
     command: "python3"
 
   jupyter:
       image: base_image
       user: root
       volumes:
-        - ./jupyter_notebooks:/usr/src/app/jupyter_notebooks
-      working_dir: /usr/src/app
+        - ./jupyter_notebooks:/usr/omni_nlu_api/jupyter_notebooks
+      working_dir: /usr/omni_nlu_api/src
       command: "jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root --no-browser"
       ports:
         - 8888:8888
 
-  test:
-    image: base_image
-    user: root
-    volumes:
-      - .:/usr/src/app
-    environment:
-      - ELASTICSEARCH_HOST=omni_nlp_elasticsearch
-    depends_on:
-      - elasticsearch
-    working_dir: /usr/src/app
-    command: "pytest --verbose"
+  # test:
+  #   image: base_image
+  #   user: root
+  #   volumes:
+  #     - .:/usr/omni_nlu_api
+  #   environment:
+  #     - ELASTICSEARCH_HOST=omni_nlp_elasticsearch
+  #   depends_on:
+  #     - elasticsearch
+  #   working_dir: /usr/omni_nlu_api
+  #   command: "pytest --verbose"
 
 volumes:
   elasticsearch-data-volume:
