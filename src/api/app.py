@@ -14,7 +14,9 @@ def create_app() -> Flask:
 
     # local imports
     from endpoints.models_settings.controller import models_settings_app
+    from endpoints.intents.controller import intents_app
 
     flask_app.register_blueprint(models_settings_app)
+    flask_app.register_blueprint(intents_app)
 
     return flask_app

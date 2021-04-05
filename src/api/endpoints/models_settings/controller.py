@@ -15,7 +15,7 @@ from elasticsearch_db.elasticsearch import get_nlp_model, pipeline_to_update_ind
 es = elastic_conection()
 
 
-@models_settings_app.route("/nlp_modelsv2", methods=["GET", "POST", "PUT", "DELETE"])
+@models_settings_app.route("/nlp_models", methods=["GET", "POST", "PUT", "DELETE"])
 def nlp_models_crud():
     try:
         if request.method == "GET":
