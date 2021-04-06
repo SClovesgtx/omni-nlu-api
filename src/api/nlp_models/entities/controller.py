@@ -9,6 +9,7 @@ from flask import Blueprint, request, Response
 entities_app = Blueprint("entities_app", __name__)
 
 # local imports
+from utils.entities import SynonymMatcher, nlp, check_regex_pattern, entity_check
 from elasticsearch_db.elasticsearch import elastic_conection
 from elasticsearch_db.elasticsearch import get_nlp_model
 

@@ -85,9 +85,9 @@ def train_nlp_models():
             return index
 
         update_intents_with_messing_examples(index, es)
-        time.sleep(15)
+        time.sleep(5)
         train_test_split(index, es)
-        time.sleep(30)
+        time.sleep(5)
         train_examples, test_examples = get_train_test(index, es)
         apply_pipe_tfidf_feature_encoding(train_examples, test_examples, index, es)
         X_train, y_train, X_test, y_test = read_td_idf_train_test_data(

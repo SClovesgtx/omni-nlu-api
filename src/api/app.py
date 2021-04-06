@@ -13,11 +13,11 @@ def create_app() -> Flask:
     flask_app = Flask("omni_nlu_api")
 
     # local imports
-    from endpoints.models_settings.controller import models_settings_app
-    from endpoints.intents.controller import intents_app
-    from endpoints.entities.controller import entities_app
-    from endpoints.train.controller import train_app
-    from endpoints.classify.controller import classify_app
+    from nlp_models.models_settings.controller import models_settings_app
+    from nlp_models.intents.controller import intents_app
+    from nlp_models.entities.controller import entities_app
+    from nlp_models.resources.train.controller import train_app
+    from nlp_models.resources.classify.controller import classify_app
 
     flask_app.register_blueprint(models_settings_app)
     flask_app.register_blueprint(intents_app)
