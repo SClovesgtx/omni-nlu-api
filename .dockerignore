@@ -1,6 +1,9 @@
 # Docker
 Dockerfile
 .dockerignore
+docker-compose.yml
+Makefile  
+README.md
 
 # Git
 .git
@@ -8,5 +11,7 @@ Dockerfile
 .gitattributes
 
 # Images
-images
-.png
+imgs
+
+# python
+__pycache__
