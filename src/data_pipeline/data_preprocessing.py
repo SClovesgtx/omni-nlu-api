@@ -6,7 +6,9 @@ Intent = namedtuple('Intent', 'intent_name text_examples')
 import pt_core_news_lg
 
 nlp = pt_core_news_lg.load()
-EXAMPLES_QUANTITY = 8
+MIN_TOTAL_EXAMPLES = 8
+MIN_EXAMPLES_FOR_TRAIN = 5
+RANDOM_SEED = 42
 
 def keep_token(token):
     return token.is_alpha and not (token.is_space or token.is_punct)
@@ -16,7 +18,7 @@ def create_artificial_example(example):
     doc = nlp(example)
     return " ".join([token.lemma_ for token in doc if keep_token(token)]).lower()
 
-def how_many_to_create(examples, defauld_quantity=EXAMPLES_QUANTITY):
+def how_many_to_create(examples):
     """
     All possibilities:
     
@@ -30,12 +32,12 @@ def how_many_to_create(examples, defauld_quantity=EXAMPLES_QUANTITY):
     
     """
     quantity_of_examples = len(examples)
-    quantity_to_complete = defauld_quantity - quantity_of_examples
-    if quantity_to_complete >= 5:
+    quantity_to_complete = MIN_TOTAL_EXAMPLES - quantity_of_examples
+    if quantity_to_complete >= MIN_EXAMPLES_FOR_TRAIN:
         return quantity_of_examples
     return quantity_to_complete
 
-def fill_missing_examples(data, random_seed=42):
+def fill_missing_examples(data, random_seed=RANDOM_SEED):
     """
     We expect at least 8 examples for each intent,
     5 to train and 3 to test the ML models.
@@ -91,7 +93,7 @@ def fill_missing_examples(data, random_seed=42):
     for intent in data:
         intent_name = intent[0]
         real_examples = intent[1]
-        if len(real_examples) < 8:
+        if len(real_examples) < MIN_TOTAL_EXAMPLES:
             qt = how_many_to_create(real_examples)
             sample = random.sample(real_examples, qt)
             artificial_examples = [create_artificial_example(example) for example in sample]
