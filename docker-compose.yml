@@ -68,17 +68,19 @@ services:
       - ELASTICSEARCH_HOST=elasticsearch
     command: "python3"
 
-  # jupyter:
-  #     image: base_image
-  #     user: root
-  #     volumes:
-  #       - ./jupyter_notebooks:/usr/omni_nlu_api/jupyter_notebooks
-  #     working_dir: /usr/omni_nlu_api
-  #     environment:
-  #     - ELASTICSEARCH_HOST=elasticsearch
-  #     command: "jupyter lab --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root --no-browser"
-  #     ports:
-  #       - 8889:8889
+  jupyter:
+      image: base_image
+      user: root
+      volumes:
+        - ./jupyter_notebooks:/usr/omni_nlu_api/jupyter_notebooks
+      working_dir: /usr/omni_nlu_api/
+      environment:
+      - ELASTICSEARCH_HOST=elasticsearch
+      command: "jupyter lab  --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root --no-browser"
+      depends_on:
+        - api
+      ports:
+        - 8888:8888
 
   # test:
   #   image: base_image

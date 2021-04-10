@@ -1,10 +1,39 @@
+from collections import namedtuple
 
+Intent = namedtuple('Intent', 'intent_name text_examples')
 
 
 def get_data(workspace, es):
-    query = {"size": 1000, "query": {"term": {"doc_type.keyword": "intent"}}}
-
-    intents = es.search(index=workspace.index_name, body=query)
-    intents = [result["_source"] for result in intents["hits"]["hits"]]
+    """
+    Get all the intents in the elasticsearch
+    workspace's index.
     
+    Parameters
+    ----------
+    workspace: the workspace object
+    es: the elasticsearch conection instance
+    
+    Returns
+    -------
+    list: a list of namedtuple Intents
+        
+    Examples
+    --------
+    
+    Raises
+    ------
+    
+    Notes
+    -----
+    
+    """
+    query = {"size": 1000, "query": {"term": {"doc_type.keyword": "intent"}}}
+    results = es.search(index=workspace.index_name, body=query)
+    results = [result["_source"] for result in results["hits"]["hits"]]
+    intents = []
+    for item in results:
+        intent_name = item["intent"]
+        text_examples = [example["text"] for example in item["examples"]]
+        intent = Intent(intent_name, text_examples)
+        intents.append(intent)
     return intents
