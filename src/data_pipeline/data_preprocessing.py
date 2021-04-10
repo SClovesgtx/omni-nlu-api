@@ -1,9 +1,48 @@
+import random
+from collections import namedtuple
 
-def intents_with_few_data(data):
+Intent = namedtuple('Intent', 'intent_name text_examples')
+
+import pt_core_news_lg
+
+nlp = pt_core_news_lg.load()
+EXAMPLES_QUANTITY = 8
+
+def keep_token(token):
+    return token.is_alpha and not (token.is_space or token.is_punct)
+
+
+def create_artificial_example(example):
+    doc = nlp(example)
+    return " ".join([token.lemma_ for token in doc if keep_token(token)]).lower()
+
+def how_many_to_create(examples, defauld_quantity=EXAMPLES_QUANTITY):
     """
-    Identify intents with less then 8 examples.
+    All possibilities:
+    
+    7 examples returns 1
+    6 examples returns 2
+    5 examples returns 3
+    4 examples returns 4
+    3 examples returns 3
+    2 examples returns 2
+    1 example  returns 1
+    
+    """
+    quantity_of_examples = len(examples)
+    quantity_to_complete = defauld_quantity - quantity_of_examples
+    if quantity_to_complete >= 5:
+        return quantity_of_examples
+    return quantity_to_complete
+
+def fill_missing_examples(data, random_seed=42):
+    """
     We expect at least 8 examples for each intent,
     5 to train and 3 to test the ML models.
+    
+    This function identify intents with less then 8 examples
+    and fill it up with artificial examples created from the 
+    exesting ones.
     
     Parameters
     ----------
@@ -11,10 +50,34 @@ def intents_with_few_data(data):
     
     Returns
     -------
-    A list of indexes of the intents with less then 8 examples
+    list: list of namedtuple representing Intents
         
     Examples
     --------
+    input = [
+        Intent(
+            intent_name='Inativar_Posição', 
+            text_examples=['Como realizo a inativação de uma posição de minha estrutura?', 
+                           'Como realizo a reativação de uma posição em minha estrutura?', 
+                           'Em quanto tempo a inativação de uma posição é efetivada?', 
+                           'Gostaria de fazer a inativação de uma posição, como faço?', 
+                           'Realizei a inativação de uma posição e ela continua visível?']
+            )
+    ]
+
+    output = [
+        Intent(
+            intent_name='Inativar_Posição', 
+            text_examples=['Como realizo a inativação de uma posição de minha estrutura?', 
+                           'Como realizo a reativação de uma posição em minha estrutura?', 
+                           'Em quanto tempo a inativação de uma posição é efetivada?', 
+                           'Gostaria de fazer a inativação de uma posição, como faço?', 
+                           'Realizei a inativação de uma posição e ela continua visível?', 
+                           'como realizar o inativação de umar posição de meu estruturar', 
+                           'realizei o inativação de umar posição e ele continuar visível', 
+                           'em quantum tempo o inativação de umar posição ser efetivada']
+        )
+    ]
     
     Raises
     ------
@@ -23,4 +86,18 @@ def intents_with_few_data(data):
     -----
     
     """
-    return [i for i, intent in enumerate(data) if len(intent[1]) < 8]
+    random.seed(random_seed)
+    new_data = []
+    for intent in data:
+        intent_name = intent[0]
+        real_examples = intent[1]
+        if len(real_examples) < 8:
+            qt = how_many_to_create(real_examples)
+            sample = random.sample(real_examples, qt)
+            artificial_examples = [create_artificial_example(example) for example in sample]
+            intent_examples = real_examples + artificial_examples
+            new_intent = Intent(intent_name, intent_examples)
+            new_data.append(new_intent)
+        else:
+            new_data.append(intent)
+    return new_data
