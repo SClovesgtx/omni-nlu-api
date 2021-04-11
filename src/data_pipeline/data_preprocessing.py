@@ -1,7 +1,8 @@
 import random
 from collections import namedtuple
 
-Intent = namedtuple('Intent', 'intent_name text_examples')
+Intent = namedtuple('Intent', 'intent_name examples_text')
+Example = namedtuple('Example', 'intent_name example_text')
 
 import pt_core_news_lg
 
@@ -9,6 +10,8 @@ nlp = pt_core_news_lg.load()
 MIN_TOTAL_EXAMPLES = 8
 MIN_EXAMPLES_FOR_TRAIN = 5
 RANDOM_SEED = 42
+
+# STOP_WORDS = read("data_pipe")
 
 def keep_token(token):
     return token.is_alpha and not (token.is_space or token.is_punct)
@@ -59,7 +62,7 @@ def fill_missing_examples(data, random_seed=RANDOM_SEED):
     input = [
         Intent(
             intent_name='Inativar_Posição', 
-            text_examples=['Como realizo a inativação de uma posição de minha estrutura?', 
+            examples_text=['Como realizo a inativação de uma posição de minha estrutura?', 
                            'Como realizo a reativação de uma posição em minha estrutura?', 
                            'Em quanto tempo a inativação de uma posição é efetivada?', 
                            'Gostaria de fazer a inativação de uma posição, como faço?', 
@@ -70,7 +73,7 @@ def fill_missing_examples(data, random_seed=RANDOM_SEED):
     output = [
         Intent(
             intent_name='Inativar_Posição', 
-            text_examples=['Como realizo a inativação de uma posição de minha estrutura?', 
+            examples_text=['Como realizo a inativação de uma posição de minha estrutura?', 
                            'Como realizo a reativação de uma posição em minha estrutura?', 
                            'Em quanto tempo a inativação de uma posição é efetivada?', 
                            'Gostaria de fazer a inativação de uma posição, como faço?', 
@@ -103,3 +106,23 @@ def fill_missing_examples(data, random_seed=RANDOM_SEED):
         else:
             new_data.append(intent)
     return new_data
+
+
+def clean(text):
+    text = text.lower()
+    text = nlp(text)
+
+
+def clean_examples(train, test):
+    cleaned_examples = []
+    for example in train + test:
+        intent_name = example[0]
+        example_text = example[1]
+        cleaned_text = clean(example_text)
+        cleaned_example = Example(intent_name, cleaned_text)
+        cleaned_examples.append(cleaned_example)
+    cleaned_train = clean_examples[:len(train)]
+    cleaned_test = clean_examples[len(train):]
+    return cleaned_train, cleaned_test
+    
+    

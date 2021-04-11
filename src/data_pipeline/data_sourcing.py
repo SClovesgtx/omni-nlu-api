@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-Intent = namedtuple('Intent', 'intent_name text_examples')
+Intent = namedtuple('Intent', 'intent_name examples_text')
 
 
 def get_data(workspace, es):
@@ -33,7 +33,7 @@ def get_data(workspace, es):
     intents = []
     for item in results:
         intent_name = item["intent"]
-        text_examples = [example["text"] for example in item["examples"]]
-        intent = Intent(intent_name, text_examples)
+        examples_text = [example["text"] for example in item["examples"]]
+        intent = Intent(intent_name, examples_text)
         intents.append(intent)
     return intents

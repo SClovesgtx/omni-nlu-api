@@ -6,6 +6,7 @@ RUN mkdir src
 COPY ./src/requirements.txt ./src
 RUN pip install -r ./src/requirements.txt
 RUN python -m spacy download pt_core_news_lg
+RUN python -m nltk.downloader rslp
 RUN pip install jupyterlab
 
 COPY ./src/ ./src/

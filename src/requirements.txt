@@ -25,6 +25,7 @@ keras-tuner==1.0.2
 
 # For nlp
 spacy==2.3.3
+nltk==3.6.1
 
 # For tests
 pytest==6.2.2
