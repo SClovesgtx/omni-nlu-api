@@ -1,3 +1,4 @@
+# standard library imports
 import random
 import math
 from collections import namedtuple

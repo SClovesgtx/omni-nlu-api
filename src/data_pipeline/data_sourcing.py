@@ -1,6 +1,13 @@
+# standard library imports
 from collections import namedtuple
 
 Intent = namedtuple('Intent', 'intent_name examples_text')
+
+# third party imports
+# nothin yet
+
+# local imports
+# nothing yet
 
 
 def get_data(workspace, es):

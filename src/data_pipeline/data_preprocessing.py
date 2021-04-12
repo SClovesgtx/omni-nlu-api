@@ -1,17 +1,31 @@
+# standard library imports
 import random
+import unicodedata
+import string
 from collections import namedtuple
 
 Intent = namedtuple('Intent', 'intent_name examples_text')
 Example = namedtuple('Example', 'intent_name example_text')
 
+# third party imports
+import nltk
 import pt_core_news_lg
 
+# local imports
+# nothing yet
+
 nlp = pt_core_news_lg.load()
+STOP_WORDS = open("data_pipeline/stop_words.txt", "r").readlines()
+STOP_WORDS = [stop.replace(" \n", "") for stop in STOP_WORDS]
+stemmer = nltk.stem.RSLPStemmer()
+
 MIN_TOTAL_EXAMPLES = 8
 MIN_EXAMPLES_FOR_TRAIN = 5
 RANDOM_SEED = 42
 
-# STOP_WORDS = read("data_pipe")
+####################################
+### Artificial Examples Creation ###
+####################################
 
 def keep_token(token):
     return token.is_alpha and not (token.is_space or token.is_punct)
@@ -107,22 +121,74 @@ def fill_missing_examples(data, random_seed=RANDOM_SEED):
             new_data.append(intent)
     return new_data
 
+######################
+### Data Cleansing ###
+######################
+    
+def remove_accents(text):
+    text = unicodedata.normalize('NFKD', text)
+    only_ascii = text.encode('ASCII', 'ignore')
+    return str(only_ascii, "utf-8")
+
+def remove_ponctuation(text):
+    without_punc = text.translate(
+                     str.maketrans(
+                         '', '', 
+                         string.punctuation
+                     )
+                   )
+    return without_punc
+
+def remove_stopwords(text):
+    without_stop = [token for token in text.split() if token not in STOP_WORDS]
+    return " ".join(without_stop)
+
+def apply_steamer(text):
+    radical_words = []
+    for token in text.split():
+        radical = stemmer.stem(token)
+        radical_words.append(radical)
+    return " ".join(radical_words)
 
 def clean(text):
     text = text.lower()
-    text = nlp(text)
+    text = remove_ponctuation(text)
+    text = remove_stopwords(text)
+    text = apply_steamer(text)
+    text = remove_accents(text) # must be the last one
+    return text
 
+def clean_examples(data):
+    """
+    Clean examples.
+    
+    Parameters
+    ----------
+    data: list of namedtuple representing Intents
+    
+    Returns
+    -------
+    list: a list of namedtuple Examples.
+        
+    Examples
+    --------
 
-def clean_examples(train, test):
-    cleaned_examples = []
-    for example in train + test:
-        intent_name = example[0]
-        example_text = example[1]
-        cleaned_text = clean(example_text)
-        cleaned_example = Example(intent_name, cleaned_text)
-        cleaned_examples.append(cleaned_example)
-    cleaned_train = clean_examples[:len(train)]
-    cleaned_test = clean_examples[len(train):]
-    return cleaned_train, cleaned_test
+    Please, see the TheDataFlow.ipynb notebook 
+    in the jupyter_notebook directory. Look for
+    Data Preprocessing topic and Cleansing sub-topic.
     
+    Raises
+    ------
     
+    Notes
+    -----
+    
+    """
+    cleaned_data = []
+    for intent in data:
+        intent_name = intent[0]
+        examples_text = intent[1]
+        cleaned_examples = [clean(example) for example in examples_text]
+        cleaned_intent = Intent(intent_name, cleaned_examples)
+        cleaned_data.append(cleaned_intent)
+    return cleaned_data
