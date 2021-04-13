@@ -11,7 +11,7 @@ MIN_EXAMPLES_FOR_TRAIN = 5
 
 def data_splitting(data, test_ratio=TEST_RATIO, random_seed=RANDOM_SEED):
     """
-    The split between train and test sets occurs at the 
+    The split between train, valid and test sets occurs at the 
     intent level. We want to assure that all intents 
     are represented in boths sets.
     
