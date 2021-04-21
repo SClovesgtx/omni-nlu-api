@@ -31,7 +31,7 @@ def sourcing(workspace, es):
             )
 
 @task
-def treating_missing_data(data):
+def imputation(data):
     
     return fill_missing_examples(data)
 
@@ -73,7 +73,7 @@ def train_data_flow(workspace, es):
     with Flow("train_dataflow") as flow:
 
         data = sourcing(workspace=workspace, es=es)
-        data = treating_missing_data(data=data)
+        data = imputation(data=data)
         data = cleansing(data=data)
         train, test = splitting(data=data)
         X_train, y_train, X_test, y_test = encoding(train=train, 
