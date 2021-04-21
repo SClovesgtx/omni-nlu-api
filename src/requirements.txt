@@ -33,3 +33,6 @@ nltk==3.6.1
 # For tests
 pytest==6.2.2
 mypy==0.812
+
+# for visualization
+matplotlib==3.3.1
