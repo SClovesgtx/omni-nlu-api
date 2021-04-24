@@ -3,6 +3,8 @@ import random
 import math
 from collections import namedtuple
 
+import pandas as pd
+
 Example = namedtuple('Example', 'intent_name example_text')
 TEST_RATIO = 0.3
 RANDOM_SEED = 42
@@ -76,5 +78,5 @@ def data_splitting(data, test_ratio=TEST_RATIO, random_seed=RANDOM_SEED):
         
         train += [Example(intent_name, example) for example in train_examples]
         test += [Example(intent_name, example) for example in test_examples]
-        
-    return train, test
+
+    return pd.DataFrame(train), pd.DataFrame(test)
