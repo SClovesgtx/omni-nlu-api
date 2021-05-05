@@ -5,7 +5,7 @@ from collections import namedtuple
 
 import pandas as pd
 
-Example = namedtuple('Example', 'intent_name example_text')
+Example = namedtuple('Example', 'intents examples')
 TEST_RATIO = 0.3
 RANDOM_SEED = 42
 MIN_TOTAL_EXAMPLES = 8
