@@ -76,7 +76,7 @@ services:
       working_dir: /usr/omni_nlu_api/
       environment:
       - ELASTICSEARCH_HOST=elasticsearch
-      command: "jupyter lab  --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root --no-browser"
+      command: "jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root --no-browser"
       depends_on:
         - api
       ports:

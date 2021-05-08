@@ -65,9 +65,9 @@ install-requirements:
 	pre-commit migrate-config
 	pre-commit autoupdate
 build:
-	$(BUILD)
+	$(BUILD); python3 -m chime
 build-no-cache:
-	$(BUILD) --no-cache
+	$(BUILD) --no-cache; python3 -m chime
 up:
 	$(UP)
 build-up:
@@ -83,7 +83,7 @@ jupyter:
 version:
 	echo $(VERSION)
 test:
-	$(RUN) -e ELASTICSEARCH_HOST="testing" test
+	$(RUN) -e ELASTICSEARCH_HOST="testing" test; python3 -m chime
 release:
 	git tag -a $(VERSION) -m "VERSION=$(VERSION) read from `version.toml`"
-	git push origin HEAD:dev tag $(VERSION)
+	git push origin HEAD:dev tag $(VERSION); python3 -m chime

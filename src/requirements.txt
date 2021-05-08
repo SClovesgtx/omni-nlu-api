@@ -39,3 +39,9 @@ mypy==0.812
 # for visualization
 matplotlib==3.3.1
 
+# environment to code
+jupyter==1.0.0
+
+# for autocomplete
+jupyter-tabnine==1.2.2
+
