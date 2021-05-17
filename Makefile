@@ -65,9 +65,9 @@ install-requirements:
 	pre-commit migrate-config
 	pre-commit autoupdate
 build:
-	$(BUILD); python3 -m chime
+	$(BUILD); python3 -m chime --theme mario
 build-no-cache:
-	$(BUILD) --no-cache; python3 -m chime
+	$(BUILD) --no-cache; python3 -m chime --theme mario
 up:
 	$(UP)
 build-up:
@@ -83,7 +83,7 @@ jupyter:
 version:
 	echo $(VERSION)
 test:
-	$(RUN) -e ELASTICSEARCH_HOST="testing" test; python3 -m chime
+	$(RUN) -e ELASTICSEARCH_HOST="testing" test; python3 -m chime --theme mario
 release:
 	git tag -a $(VERSION) -m "VERSION=$(VERSION) read from `version.toml`"
 	git push origin HEAD:dev tag $(VERSION); python3 -m chime

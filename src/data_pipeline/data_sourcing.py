@@ -20,7 +20,7 @@ def get_data(workspace, es):
 
     Returns
     -------
-    list: a list of namedtuple Intents
+    list: a dataframe pandas with intens and examples
 
     Examples
     --------

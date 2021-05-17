@@ -45,3 +45,8 @@ jupyter==1.0.0
 # for autocomplete
 jupyter-tabnine==1.2.2
 
+# to notify the end of a long task
+chime==0.6.0
+
+# to check security vulnerability
+bandit==1.7.0
