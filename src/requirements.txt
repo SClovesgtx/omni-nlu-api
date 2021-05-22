@@ -1,6 +1,11 @@
+# for tabular data representation an manipulation
+pandas==1.1.4
 
 # For DB and NLP Processing
 elasticsearch==7.1.0
+
+# For data flow organization
+prefect[viz]==0.14.12
 
 # For API
 Flask==1.1.2
@@ -25,7 +30,23 @@ keras-tuner==1.0.2
 
 # For nlp
 spacy==2.3.3
+nltk==3.6.1
 
 # For tests
 pytest==6.2.2
 mypy==0.812
+
+# for visualization
+matplotlib==3.3.1
+
+# environment to code
+jupyter==1.0.0
+
+# for autocomplete
+jupyter-tabnine==1.2.2
+
+# to notify the end of a long task
+chime==0.6.0
+
+# to check security vulnerability
+bandit==1.7.0

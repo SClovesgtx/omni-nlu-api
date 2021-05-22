@@ -52,7 +52,6 @@ def get_intents_dictionary(workspace_id):
 
 def intent_to_onehot(intents_names):
     data = np.asarray([[intent_name] for intent_name in intents_names])
-    print(data)
     # define one hot encoding
     encoder = OneHotEncoder(sparse=False)
     # transform data

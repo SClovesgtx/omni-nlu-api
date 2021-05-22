@@ -537,12 +537,10 @@ def train_nlp_models():
             workspace_id=index.workspace_id,
             settings=svm_settings,
         )
-        # xgb_accuracy = train_xgboost_model(X_train, y_train, X_test, y_test, index.workspace_id)
         acc = {
             "bm25_accuracy": bm25_acc,
             "cnn_accuracy": cnn_accuracy,
             "logit_accuracy": logit_accuracy,
-            # "xgb_accuracy": xgb_accuracy,
             "svm_accuracy": svm_accuracy,
         }
         es.update(
