@@ -6,6 +6,6 @@
     "service": "bash",
     "workspaceFolder": "/usr/omni_nlu_api"  ,
     "extensions": ["ms-python.python", "shd101wyy.markdown-preview-enhanced", 
-                   "ms-toolsai.jupyter", "vscode-icons-team.vscode-icons"],
+                   "ms-toolsai.jupyter", "vscode-icons-team.vscode-icons", "tabnine.tabn"],
     "shutdownAction": "stopCompose"
 }
