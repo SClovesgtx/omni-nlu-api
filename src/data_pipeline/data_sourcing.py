@@ -37,7 +37,7 @@ def get_data(workspace, es):
     results = [result["_source"] for result in results["hits"]["hits"]]
     data = []
     for item in results:
-        if len(item["examples"]) >= 3:
+        if len(item["examples"]) >= 8:
             data += [(item["intent"], example["text"]) for example in item["examples"]]
     df = pd.DataFrame(data=data, columns=["intents", "examples"])
     return df

@@ -38,6 +38,7 @@ mypy==0.812
 
 # for visualization
 matplotlib==3.3.1
+plotly==4.14.3
 
 # environment to code
 jupyter==1.0.0
