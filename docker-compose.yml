@@ -11,7 +11,7 @@ services:
       - ./src:/usr/omni_nlu_api/src
     working_dir: /usr/omni_nlu_api
     environment:
-      - ELASTICSEARCH_HOST=192.168.0.186
+      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
     ports:
       - 5000:5000
 
@@ -23,7 +23,7 @@ services:
     working_dir: /usr/omni_nlu_api/src
     entrypoint: /bin/sh
     environment:
-        - ELASTICSEARCH_HOST=192.168.0.186
+        - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
 
   jupyter:
       image: base_image
@@ -32,10 +32,10 @@ services:
         - ./jupyter_notebooks:/usr/omni_nlu_api/jupyter_notebooks
       working_dir: /usr/omni_nlu_api/
       environment:
-        - ELASTICSEARCH_HOST=192.168.0.186
-        - API_KEY=nA36HqlqQkQSDf0EywIeYGPl0qI_nNvLqvBUI_zhhUmR
-        - SERVICE_URL=https://api.us-south.assistant.watson.cloud.ibm.com/instances/12c017ac-1bb4-4364-8493-9cc9ba98aa26
-        - ASSISTANT_ID=fb636035-ab5f-42f4-9e15-7217458a754f
+        - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
+        - API_KEY=${API_KEY}
+        - SERVICE_URL=${SERVICE_URL}
+        - ASSISTANT_ID=${ASSISTANT_ID}
       command: "jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root --no-browser"
       ports:
         - 8888:8888
