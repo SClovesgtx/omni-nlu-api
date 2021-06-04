@@ -69,7 +69,7 @@ To use bash inside container run:
 ~$ make bash
 ```
 
-# Conventions used in this project
+# 3 - Conventions used in this project
 
 Before to make any contribution to Omni NLU API, make sure that you are familiar with the conventions of this project:
 
@@ -77,7 +77,7 @@ Before to make any contribution to Omni NLU API, make sure that you are familiar
 
 
 
-# Postman Colection
+# 4 - Postman Colection
 
 You can try the Omni NLU API using the following public collections in you descktop Postman:
 
@@ -86,10 +86,6 @@ You can try the Omni NLU API using the following public collections in you desck
 * [CRUD NLP Models Settings](https://estatisticacaps.postman.co/collections/7003300-036770e9-d3a9-4a6d-be37-69069d5ff229?workspace=7408cb64-1ce3-44b5-93e6-f7d5f44cfa42)
 * [Classification Resources](https://estatisticacaps.postman.co/collections/7003300-873ff05e-662b-421a-ad6f-db8f4b739214?workspace=7408cb64-1ce3-44b5-93e6-f7d5f44cfa42)
 
-
-# 3 - Authentications
-
-Something here soon...
 
 
 

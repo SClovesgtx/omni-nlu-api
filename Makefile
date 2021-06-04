@@ -76,8 +76,6 @@ down:
 	$(DOWN)
 bash:
 	$(RUN) bash
-python3:
-	$(RUN) python3
 jupyter:
 	$(RUN) jupyter
 version:
@@ -87,3 +85,7 @@ test:
 release:
 	git tag -a $(VERSION) -m "VERSION=$(VERSION) read from `version.toml`"
 	git push origin HEAD:dev tag $(VERSION); python3 -m chime
+docs:
+	# Auto documentation.
+	# references: https://pdoc.dev/
+	$(RUN) --service-ports docs

@@ -8,8 +8,8 @@ services:
     restart: always
     user: root
     volumes:
-      - ./src:/usr/omni_nlu_api/src
-    working_dir: /usr/omni_nlu_api
+      - ./src:/usr/omni_nlu/src
+    working_dir: /usr/omni_nlu
     environment:
       - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
     ports:
@@ -19,8 +19,8 @@ services:
     image: base_image
     user: root
     volumes:
-      - ./src:/usr/omni_nlu_api/src
-    working_dir: /usr/omni_nlu_api/src
+      - ./src:/usr/omni_nlu/src
+    working_dir: /usr/omni_nlu/src
     entrypoint: /bin/sh
     environment:
         - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
@@ -29,8 +29,8 @@ services:
       image: base_image
       user: root
       volumes:
-        - ./jupyter_notebooks:/usr/omni_nlu_api/jupyter_notebooks
-      working_dir: /usr/omni_nlu_api/
+        - ./jupyter_notebooks:/usr/omni_nlu/jupyter_notebooks
+      working_dir: /usr/omni_nlu/
       environment:
         - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
         - API_KEY=${API_KEY}
@@ -39,3 +39,16 @@ services:
       command: "jupyter notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --allow-root --no-browser"
       ports:
         - 8888:8888
+
+  docs:
+      image: base_image
+      user: root
+      volumes:
+        - ./src:/usr/omni_nlu
+      working_dir: /usr/omni_nlu
+      environment:
+        - PYTHONPATH=/usr/omni_nlu
+      command: >
+        pdoc -h 0.0.0.0 -p 314 ./src/data_pipeline
+      ports:
+        - 314:314
