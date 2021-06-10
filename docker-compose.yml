@@ -30,7 +30,7 @@ services:
       user: root
       volumes:
         - ./jupyter_notebooks:/usr/omni_nlu/jupyter_notebooks
-      working_dir: /usr/omni_nlu/
+      working_dir: /usr/omni_nlu
       environment:
         - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
         - API_KEY=${API_KEY}
@@ -44,11 +44,11 @@ services:
       image: base_image
       user: root
       volumes:
-        - ./src:/usr/omni_nlu
-      working_dir: /usr/omni_nlu
+        - ./src:/usr/omni_nlu/src
+      working_dir: /usr/omni_nlu/src
       environment:
-        - PYTHONPATH=/usr/omni_nlu
+        - PYTHONPATH=/usr/omni_nlu/src
       command: >
-        pdoc -h 0.0.0.0 -p 314 ./src/data_pipeline
+        pdoc -h 0.0.0.0 -p 314 ./data_pipeline
       ports:
         - 314:314
